@@ -18,14 +18,16 @@ def menu() -> int:
     print("1. Inserir notas")
     print("2. Exibir notas")
     print("3. Exibir nota específica")
-    print("4. Exibir média")
-    print("5. Exibir maior nota")
-    print("6. Exibir menor nota")
-    print("7. Sair")
+    print("4. Editar nota específica")
+    print("5. deletar nota específica")
+    print("6. Exibir média")
+    print("7. Exibir maior nota")
+    print("8. Exibir menor nota")
+    print("9. Sair")
     while True:
         try:
             opcao = int(input("Escolha uma opção: "))
-            if 1 <= opcao <= 7:
+            if 1 <= opcao <= 9:
                 break
             else:
                 print("Opção inválida. Tente novamente.")
@@ -45,12 +47,16 @@ def executar_opcao(opcao: int, notas: list) -> bool:
         case 3:
             exibir_nota_especifica(notas)
         case 4:
-            exibir_media(notas)
+            editar_nota_especifica(notas)
         case 5:
-            exibir_maior_nota(notas)
+            deletar_nota_especifica(notas)
         case 6:
-            exibir_menor_nota(notas)
+            exibir_media(notas)
         case 7:
+            exibir_maior_nota(notas)
+        case 8:
+            exibir_menor_nota(notas)
+        case 9:
             print("Saindo...")
             return False  # Sair do loop principal
         case _:
@@ -108,7 +114,56 @@ def exibir_nota_especifica(notas: list) -> None:
             except ValueError:
                 print("Entrada inválida. Por favor, digite um número.")
 
-# 4. Calcular a média das notas.
+# 4. Editar uma nota específica.
+def editar_nota_especifica(notas: list) -> None:
+    '''
+    Função para editar nota específica.
+    '''
+    if not notas:
+        print("Nenhuma nota registrada.")
+        return
+    else:
+        while True:
+            try:
+                indice = int(input("Digite o índice da nota que deseja editar (1 a 10): ")) - 1
+                if 0 <= indice < len(notas):
+                    try:
+                        nova_nota = float(input(f'Digite a nova nota para a nota {indice+1}: '))
+                        if 0 <= nova_nota <= 10:
+                            notas[indice] = nova_nota
+                            print(f'Nota {indice+1} editada: {notas[indice]}')
+                            break
+                        else:
+                            print("Nota inválida. Digite um valor entre 0 e 10.")
+                    except ValueError:
+                        print("Entrada inválida. Por favor, digite um número.")
+            except ValueError:
+                print("Entrada inválida. Por favor, digite um número.")
+
+
+# 5. Deletar uma nota específica.
+def deletar_nota_especifica(notas: list) -> None:
+    '''
+    Função para deletar nota específica.
+    '''
+    if not notas:
+        print("Nenhuma nota registrada.")
+        return
+    else:
+        while True:
+            try:
+                indice = int(input("Digite o índice da nota que deseja deletar (1 a 10): ")) - 1
+                if 0 <= indice < len(notas):
+                    poped_nota = notas.pop(indice)
+                    print(f'Nota {indice+1} deletada: {poped_nota}')
+                    break
+                else:
+                    print("Índice inválido. Digite um valor entre 1 e 10.")
+            except ValueError:
+                print("Entrada inválida. Por favor, digite um número.")
+
+
+# 6. Calcular a média das notas.
 def calcular_media(notas: list) -> float:
     '''
     Função para calcular a média das notas.
@@ -119,7 +174,7 @@ def calcular_media(notas: list) -> float:
     else:
         return sum(notas) / len(notas)
 
-# 4. Exibir a média das notas.
+# 6. Exibir a média das notas.
 def exibir_media(notas: list) -> None:
     '''
     Função para exibir a média das notas.
@@ -127,7 +182,7 @@ def exibir_media(notas: list) -> None:
     media = calcular_media(notas)
     print(f'Média das notas: {media:.2f}')
 
-# 5. Exibir a maior nota.
+# 7. Exibir a maior nota.
 def exibir_maior_nota(notas: list) -> None:
     '''
     Função para exibir a maior nota.
@@ -139,7 +194,7 @@ def exibir_maior_nota(notas: list) -> None:
         maior_nota = max(notas)
         print(f'Maior nota: {maior_nota}')
 
-# 6. Exibir a menor nota.
+# 8. Exibir a menor nota.
 def exibir_menor_nota(notas: list) -> None:
     '''
     Função para exibir a menor nota.
